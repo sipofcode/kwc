@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Composer</title>
+</head>
+<body>
+    <div id="app">
+
+        <h1>Kettlebell routine composer</h1>
+
+        <ul v-for="set in routine.sets">
+
+            <li>
+
+                <input v-model="set.times" type=number> 
+                
+                <select v-model="set.type_id">
+                    <option v-for="type in set_types" :value="type.id">
+                    {{type.name}}
+                    </option>
+                </select>
+                &times;
+
+                <ul v-for="exercise in set.exercises">
+                    <li>
+                        <input v-model="exercise.times" type=number> 
+                        
+                        <select v-model="exercise.type_id">
+                            <option v-for="type in exercise_types" :value="type.id">
+                            {{type.name}}
+                            </option>
+                        </select>
+                        &times;
+                        
+                        <select v-model="exercise.exercise">
+                        <option v-for="ex in db" :value="ex">
+                        {{ex}}
+                        </option>
+                    </select>
+
+                    <button v-on:click="removeExercise(set, exercise)">Remove exercise</button>
+                    
+                    </li>
+                </ul>
+                <br>
+                <button v-on:click="addExercise(set)">Add exercise</button>
+                <button v-on:click="removeSet(set)">Remove set</button>
+            </li>
+        </ul>
+
+        <button v-on:click="addSet()">Add set</button>
+
+
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

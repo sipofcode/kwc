@@ -1,0 +1,2 @@
+serve:
+	parcel index.html
