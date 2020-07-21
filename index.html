@@ -1,60 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Composer</title>
 </head>
+
+
 <body>
-    <div id="app">
+  <section class="section">
+    <div class="container" id="app">
+      <h1 class="title is-1">Kettlebell workout composer</h1>
 
-        <h1>Kettlebell routine composer</h1>
+      <div class="columns is-multiline">
 
-        <ul v-for="set in routine.sets">
+        <div class="column is-6" v-for="(set, index) in workout.sets">
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">
+                Set #{{index + 1}}
+              </p>
+              <button v-on:click="removeSet(set)" class="button is-danger is-inverted">
+                <i class="fas fa-times"></i>
+              </button>
+            </header>
+            <div class="card-content">
+              <div class="content">
 
-            <li>
 
-                <input v-model="set.times" type=number> 
-                
-                <select v-model="set.type_id">
-                    <option v-for="type in set_types" :value="type.id">
-                    {{type.name}}
-                    </option>
-                </select>
-                &times;
+                <div class="field has-addons has-addons-centered">
+                  <p class="control">
+                    <input class="input" v-model="set.times" type="number">
+                  </p>
+                  <p class="control is-expanded">
+                    <span class="select">
+                      <select v-model="set.type_id">
+                          <option v-for="type in set_types" :value="type.id">
+                              {{type.name}}
+                          </option>
+                      </select>
+                    </span>
+                  </p>
+                </div>
 
-                <ul v-for="exercise in set.exercises">
-                    <li>
-                        <input v-model="exercise.times" type=number> 
-                        
-                        <select v-model="exercise.type_id">
-                            <option v-for="type in exercise_types" :value="type.id">
-                            {{type.name}}
-                            </option>
-                        </select>
-                        &times;
-                        
-                        <select v-model="exercise.exercise">
-                        <option v-for="ex in db" :value="ex">
-                        {{ex}}
-                        </option>
-                    </select>
+                <hr>
 
-                    <button v-on:click="removeExercise(set, exercise)">Remove exercise</button>
-                    
-                    </li>
-                </ul>
-                <br>
-                <button v-on:click="addExercise(set)">Add exercise</button>
-                <button v-on:click="removeSet(set)">Remove set</button>
-            </li>
-        </ul>
+                <div class="field has-addons has-addons-centered" v-for="exercise in set.exercises">
+                  <p class="control">
+                    <input class="input" v-model="exercise.times" type="number">
+                  </p>
+                  <p class="control">
+                    <span class="select">
+                      <select v-model="exercise.type_id">
+                          <option v-for="type in exercise_types" :value="type.id">
+                              {{type.name}}
+                          </option>
+                      </select>
+                    </span>
+                  </p>
+                  <p class="control">
+                    <span class="select">
+                      <select v-model="exercise.exercise_id">
+                          <option v-for="ex in db" :value="ex.id">
+                              {{ex.name}}
+                          </option>
+                      </select>
+                    </span>
+                  </p>
+                  <p class="control is-expanded">
+                    <a href="#" class="button is-danger" v-on:click="removeExercise(set, exercise)">
+                      <i class="fas fa-times"></i>
+                    </a>
+                  </p>
+                </div>
 
-        <button v-on:click="addSet()">Add set</button>
+                <button class="button" v-on:click="addExercise(set)">
+                  <i class="fas fa-plus"></i>
+                </button>
 
+              </div>
+            </div>
+            <footer class="card-footer">
+              <a href="#" v-on:click="duplicateSet(set)" class="card-footer-item button is-primary">Dup</a>
+            </footer>
+          </div>
+        </div>
+
+        <div class="column is-6">
+          <button class="button is-large is-fullwidth" v-on:click="addSet()">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+
+      </div>
+
+      <button class="button is-large is-fullwidth" v-on:click="loadWorkout('1-2:10-2-2|6-4:10-2-2+10-2-2+10-2-2')">
+        load
+      </button>
 
     </div>
 
-    <script src="main.js"></script>
+  </section>
+
+  <script src="main.js"></script>
 </body>
+
 </html>
