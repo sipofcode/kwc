@@ -1,2 +1,2 @@
 serve:
-	parcel index.html
+	parcel index.html gifs/*
