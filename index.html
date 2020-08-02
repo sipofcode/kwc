@@ -4,16 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Composer</title>
+    <title>Kettlebell Workout Composer</title>
 
     <style>
+
+  body {
+      background-color: #f0f0f0;
+      min-height: 100vh;
+    }
+
       img.demo.full {
         width: 100%;
         border: 2px solid #00d1b2;
+        border-radius: 4px;
       }
 
       .set button.remove {
         height: auto;
+      }
+
+      svg {
+        margin-right: 0.4em;
       }
 
 /*
@@ -26,13 +37,72 @@
 
 
 <body>
+  <div id="app">
+  <section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Kettlebell Workout Composer
+      </h1>
+      <h2 class="subtitle">
+				Hecho con <i class="fa fa-heart" aria-hidden="true" style="color: red"></i> por
+				<a class="is-primary" href="https://sipofcode.com" target="_blank">Lucas</a>
+      </h2>
+    </div>
+  </div>
+</section>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="container">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbar">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbar" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" v-on:click="openModal('load')">
+          <i class="fas fa-folder-open"></i>
+          Abrir
+        </a>
+        <a class="navbar-item" v-on:click="saveWorkout()">
+          <i class="fas fa-save"></i>
+          Guardar
+        </a>
+        <a class="navbar-item" v-on:click="openModal('credits')">
+          <i class="fas fa-thumbtack"></i>
+          Créditos
+        </a>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-dark" v-on:click="openModal('support')">
+              <i class="fas fa-hand-holding-usd"></i>
+              ¿Querés apoyarme?
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
   <section class="section">
-    <div class="container" id="app">
-      <h1 class="title is-1">Kettlebell workout composer</h1>
+    <div class="container">
+
+      <div class="notification is-danger">
+        <button class="delete"></button>
+        <strong>¡Cuidado!</strong> Entrenar por cuenta propia queda bajo tu única responsabilidad.
+        Manejar <em>kettlebells</em> requiere de algunos pasos previos. Consultá con un profesional capacitado.
+      </div>
 
       <div class="columns is-multiline">
 
-        <div class="set column is-4" v-for="(set, index) in workout.sets">
+        <div class="set column is-6" v-for="(set, index) in workout.sets">
           <div class="card">
             <header class="card-header">
               <p class="card-header-title">
@@ -44,7 +114,6 @@
             </header>
             <div class="card-content">
               <div class="content">
-
 
                 <div class="field has-addons has-addons-centered">
                   <p class="control">
@@ -107,7 +176,7 @@
           </div>
         </div>
 
-        <div class="column is-4">
+        <div class="column is-6">
           <button class="button is-large is-fullwidth" v-on:click="addSet()">
             <i class="fas fa-plus"></i>
           </button>
@@ -115,15 +184,142 @@
 
       </div>
 
-      <button class="button is-large is-fullwidth" v-on:click="loadWorkout('1-2:5-2-24+8-2-2+8-2-39')">
-        Mini rutina para combatir el sedentarismo
-      </button>
+      <div v-bind:class="{ modal: true, 'is-active': modals.load }">
+        <div class="modal-background" v-on:click="closeModal('load')"></div>
+
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Rutinas</p>
+            <button class="delete" aria-label="close" v-on:click="closeModal('load')"></button>
+          </header>
+          <section class="modal-card-body">
+
+            <h2 class="subtitle">Catálogo</h2>
+            <table class="table is-hoverable is-fullwidth">
+              <thead>
+                <tr>
+                  <th>Título</th>
+                  <th>Créditos</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="wo in workouts">
+                  <td>
+                    <a href="#" v-on:click="loadWorkout(wo.details)">
+                      {{ wo.title }}
+                    </a>
+                  </td>
+                  <td>
+                    <a v-bind:href="wo.credits">
+                      <i class="fas fa-external-link-alt"></i>
+                      Enalce externo
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <template v-if="this.own.length > 0">
+              <h2 class="subtitle">Propias</h2>
+              <table class="table is-hoverable is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Detalle</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="wo in own">
+                    <td>
+                      #{{ wo.id }}
+                    </td>
+                    <td>
+                      <a href="#" v-on:click="loadWorkout(wo.details)">
+                        {{ wo.title }}
+                      </a>
+                    </td>
+                    <td>
+                      <button class="button is-danger is-small" v-on:click="removeWorkout(wo.id)">
+                        &times;
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </template>
+          </section>
+        </div>
+      </div>
+
+      <div v-bind:class="{ modal: true, 'is-active': modals.credits }">
+        <div class="modal-background" v-on:click="closeModal('credits')"></div>
+
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Créditos</p>
+            <button class="delete" aria-label="close" v-on:click="closeModal('credits')"></button>
+          </header>
+          <section class="modal-card-body">
+
+            <div class="content">
+              <p>Esta herramienta se realizó con material accesible mediante Internet. Se han combinado herramientas y contenidos para brindar una utilidad a los practicantes de Kettlebells.</p>
+
+              <h2>Material</h2>
+              <ul>
+                <li>Video original, <a href="https://www.youtube.com/watch?v=D-NazhzrVhE">75 ejercicios con kettlebells en 15 minutos</a>, de <a href="https://jeronimomilo.com.ar/">Jerónimo Milo</a></li>
+              </ul>
+
+              <h2>Herramientas tecnológicas</h2>
+              <ul>
+                <li><a href="https://vuejs.org/">VueJS</a>, para el orquestado de las acciones</li>
+                <li><a href="https://bulma.io/">Bulma</a>, para el <em>look and feel</em></li>
+                <li><a href="https://fontawesome.com/">FontAwesome</a>, para la iconografía</li>
+                <li><a href="https://lodash.com/">Lodash</a>, para algunos algoritmos</li>
+                <li><a href="https://ffmpeg.org/">FFMPEG</a>, para el recorte del video y la conversión a gifs</li>
+              </ul>
+
+              <h2>Desarrollo</h2>
+              <p>
+                La idea y programación la realizó <a href="https://www.sipofcode.com/">Lucas</a>, autor de varios proyectos más.
+              </p>
+            </div>
+
+
+          </section>
+        </div>
+      </div>
+
+      <div v-bind:class="{ modal: true, 'is-active': modals.support }">
+        <div class="modal-background" v-on:click="closeModal('support')"></div>
+
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Apoyo</p>
+            <button class="delete" aria-label="close" v-on:click="closeModal('support')"></button>
+          </header>
+          <section class="modal-card-body">
+            <div class="content">
+              <p>¡Hay muchas formas en las que me podés ayudar!</p>
+              <ul>
+                <li>Si tenés un producto afín (venta de cursos, equipamiento, sesiones de entrenamiento), puedo agregar una pequeña publicidad a cambio de un modesto pago... <a href="mailto:lucas@sipofcode.com">¡Escribime!</a></li>
+                <li>Si sabés diseñar, programar, o tenés ideas para el producto, podés hacerlo desde el <a href="https://www.github.com/sipofcode/kwc">GitHub del proyecto</a>.</li>
+                <li>Si sos profesional de las Kettlebells y tenés rutinas que pueda agregar, <a href="mailto:lucas@sipofcode.com">¡escribime!</a></li>
+                <li>Si usas la herramienta y te parece valiosa, ¡compartila! Cuanta más gente la vea, más posibilidades hay de que surgan oportunidades que retribuyan por mi trabajo.</li>
+                <li><a href="https://www.buymeacoffee.com/sipofcode">Podés comprarme un café</a>.</li>
+              </ul>
+            </div>
+          </section>
+        </div>
+      </div>
 
     </div>
 
   </section>
 
+  </div>
   <script src="main.js"></script>
+
 </body>
 
 </html>

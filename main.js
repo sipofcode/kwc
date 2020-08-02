@@ -69,7 +69,7 @@ const vm = new Vue({
               { id: 58, name: 'PRESS EXCENTRICO' },
               { id: 59, name: 'SOT PRESS' },
               { id: 60, name: 'PUSH UP A DESNIVEL' },
-              { id: 61, name: 'SEESAW / PRESS VIKINGO' },
+              { id: 61, name: 'SEESAW' },
               { id: 62, name: 'ARM BAR' },
               { id: 63, name: 'PRESS LATERAL' },
               { id: 64, name: 'MOLINO PROFUNDO' },
@@ -96,12 +96,29 @@ const vm = new Vue({
                 { id: 6, name: "pyramid"}
             ],
             workout: {
-                sets: []
+              sets: []
+            },
+            workouts: [
+              {
+                title: 'Mini rutina para combatir el sedentarismo, Guille',
+                details: '1-2:5-2-24+8-2-2+8-2-39',
+                credits: 'https://www.youtube.com/watch?v=0zc373FkIUM'
+              }
+            ],
+            own: [],
+            modals: {
+              load: false,
+              support: false,
+              credits: false
             }
         }
     },
     mounted: function() {
       this.loadWorkout(window.location.search.substr(1).split("=")[1]);
+      var els = JSON.parse(localStorage.getItem('workouts'));
+      console.log(els)
+      if (els != null)
+        this.own = this.own.concat(els);
     },
     watch: {
       workout: {
@@ -129,7 +146,32 @@ const vm = new Vue({
       }
     },
     methods: {
+      openModal(name) {
+        this.modals[name] = true;
+      },
+      closeModal(name) {
+        this.modals[name] = false;
+      },
+      saveWorkout() {
+        var id = Math.max(...this.own.map(elt => elt.id));
+        if (id < 0) id = 0;
+        var title = prompt("Nombrá la rutina", "Mi Rutina");
+        this.own.push({
+          id: id + 1,
+          title: title,
+          details: this.shareableWorkout
+        });
+        localStorage.setItem('workouts', JSON.stringify(this.own));
+      },
+      removeWorkout(id) {
+        var removeIndex = this.own.map(item => item.id)
+                       .indexOf(id);
+        this.own.splice(removeIndex, 1);
+        localStorage.setItem('workouts', JSON.stringify(this.own));
+        this.closeModal('load');
+      },
       loadWorkout(shareableWorkout) {
+        if (shareableWorkout.length < 3) return;
         this.workout = { sets: [] };
         var sets = shareableWorkout.split("|");
         var that = this;
@@ -154,6 +196,7 @@ const vm = new Vue({
           });
           that.workout.sets.push(_set);
         });
+        this.closeModal('load');
       },
       addSet() {
           this.workout.sets.push({
@@ -185,4 +228,14 @@ const vm = new Vue({
           }
       }
     }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+    var $notification = $delete.parentNode;
+
+    $delete.addEventListener('click', () => {
+      $notification.parentNode.removeChild($notification);
+    });
+  });
 });
