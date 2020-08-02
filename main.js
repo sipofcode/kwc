@@ -86,14 +86,14 @@ const vm = new Vue({
               { id: 75, name: 'TWO HANDS ANYHOW' },
               { id: 76, name: 'CLEAN Y JERK' },
             ],
-            exercise_types: [ { id: 1, name: "secs" }, { id: 2, name: "reps" } ],
+            exercise_types: [ { id: 1, name: "seg" }, { id: 2, name: "rep" } ],
             set_types: [
-                { id: 1, name: "secs" },
-                { id: 2, name: "reps" },
-                { id: 3, name: "emom"},
-                { id: 4, name: "up ladder"},
-                { id: 5, name: "down ladder"},
-                { id: 6, name: "pyramid"}
+              { id: 2, name: "repeticiones" },
+              { id: 1, name: "segundos" },
+              { id: 3, name: "EMOM"},
+              { id: 4, name: "escalera ascendente"},
+              { id: 5, name: "escalera descendente"},
+              { id: 6, name: "pirámide"}
             ],
             workout: {
               sets: []
@@ -143,6 +143,17 @@ const vm = new Vue({
         return this.workout.sets.map(function(s) {
           return set(s);
         }).join("|");
+      },
+      sortedExercises: function() {
+        function compare(a, b) {
+          if (a.name < b.name)
+            return -1;
+          if (a.name > b.name)
+            return 1;
+          return 0;
+        }
+
+        return this.db.sort(compare);
       }
     },
     methods: {
@@ -164,14 +175,13 @@ const vm = new Vue({
         localStorage.setItem('workouts', JSON.stringify(this.own));
       },
       removeWorkout(id) {
-        var removeIndex = this.own.map(item => item.id)
-                       .indexOf(id);
+        var removeIndex = this.own.map(item => item.id).indexOf(id);
         this.own.splice(removeIndex, 1);
         localStorage.setItem('workouts', JSON.stringify(this.own));
         this.closeModal('load');
       },
       loadWorkout(shareableWorkout) {
-        if (shareableWorkout.length < 3) return;
+        if (shareableWorkout.length < 5) return;
         this.workout = { sets: [] };
         var sets = shareableWorkout.split("|");
         var that = this;

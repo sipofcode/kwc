@@ -132,6 +132,8 @@
 
                 <hr>
 
+                <h2>Ejercicios</h2>
+
                 <template v-for="exercise in set.exercises">
                   <img class="demo full" v-bind:src="'gifs/' + exercise.ex.id + '.gif'" />
                   <div class="field has-addons has-addons-centered">
@@ -150,7 +152,7 @@
                     <p class="control" style="max-width: 50%">
                       <span class="select">
                         <select v-model="exercise.ex">
-                            <option v-for="ex in db" :value="ex">
+                            <option v-for="ex in sortedExercises" :value="ex">
                                 {{ex.name}}
                             </option>
                         </select>
