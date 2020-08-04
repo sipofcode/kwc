@@ -8,10 +8,10 @@
 
     <style>
 
-  body {
-      background-color: #f0f0f0;
-      min-height: 100vh;
-    }
+      body {
+        background-color: #f0f0f0;
+        min-height: 100vh;
+      }
 
       img.demo.full {
         width: 100%;
@@ -26,12 +26,6 @@
       svg {
         margin-right: 0.4em;
       }
-
-/*
-      .set {
-        min-width: 431px;
-      }
-*/
     </style>
 </head>
 
@@ -46,7 +40,9 @@
       </h1>
       <h2 class="subtitle">
 				Hecho con <i class="fa fa-heart" aria-hidden="true" style="color: red"></i> por
-				<a class="is-primary" href="https://sipofcode.com" target="_blank">Lucas</a>
+				<a class="is-primary" href="https://sipofcode.com" target="_blank">Lucas</a>.
+        Demostraciones por
+        <a class="is-primary" href="https://jeronimomilo.com.ar" target="_blank">Jerónimo</a>
       </h2>
     </div>
   </div>
@@ -136,6 +132,15 @@
 
                 <template v-for="exercise in set.exercises">
                   <img class="demo full" v-bind:src="'gifs/' + exercise.ex.id + '.gif'" />
+                  <p class="control">
+                    <span class="select">
+                      <select v-model="exercise.ex">
+                          <option v-for="ex in sortedExercises" :value="ex">
+                              {{ex.name}}
+                          </option>
+                      </select>
+                    </span>
+                  </p>
                   <div class="field has-addons has-addons-centered">
                     <p class="control">
                       <input class="input" v-model="exercise.times" type="number">
@@ -149,16 +154,7 @@
                         </select>
                       </span>
                     </p>
-                    <p class="control" style="max-width: 50%">
-                      <span class="select">
-                        <select v-model="exercise.ex">
-                            <option v-for="ex in sortedExercises" :value="ex">
-                                {{ex.name}}
-                            </option>
-                        </select>
-                      </span>
-                    </p>
-                    <p class="control is-expanded">
+                    <p class="control">
                       <a href="#" class="button is-danger" v-on:click="removeExercise(set, exercise)">
                         <i class="fas fa-times"></i>
                       </a>
@@ -308,8 +304,11 @@
                 <li>Si sabés diseñar, programar, o tenés ideas para el producto, podés hacerlo desde el <a href="https://www.github.com/sipofcode/kwc">GitHub del proyecto</a>.</li>
                 <li>Si sos profesional de las Kettlebells y tenés rutinas que pueda agregar, <a href="mailto:lucas@sipofcode.com">¡escribime!</a></li>
                 <li>Si usas la herramienta y te parece valiosa, ¡compartila! Cuanta más gente la vea, más posibilidades hay de que surgan oportunidades que retribuyan por mi trabajo.</li>
-                <li><a href="https://www.buymeacoffee.com/sipofcode">Podés comprarme un café</a>.</li>
+                <li>O podés comprarme un café...</li>
               </ul>
+              <div style="text-align: center">
+                <a href="https://www.buymeacoffee.com/sipofcode" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+              </div>
             </div>
           </section>
         </div>
@@ -318,6 +317,12 @@
     </div>
 
   </section>
+
+
+
+      <a v-bind:href="'whatsapp://send?text=' + shareableURL" style="padding-left: 1.3em;" class="button is-floating is-success">
+          <i class="fab fa-whatsapp"></i>
+      </a>
 
   </div>
   <script src="main.js"></script>

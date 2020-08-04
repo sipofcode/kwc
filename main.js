@@ -1,5 +1,6 @@
 import Vue from 'vue/dist/vue.js';
 import 'bulma/css/bulma.css';
+import 'bulma-floating-button/dist/css/bulma-floating-button.min.css';
 import '@fortawesome/fontawesome-free/js/all.js';
 var cloneDeep = require('lodash.clonedeep');
 
@@ -13,7 +14,7 @@ const vm = new Vue({
               { id: 2, name: 'SWING DE LA CABRA' },
               { id: 3, name: 'BUENOS DIAS' },
               { id: 4, name: 'MOLINO BAJO' },
-              { id: 5, name: 'DL ASIMETRICO' },
+              { id: 5, name: 'PESO MUERTO ASIMETRICO' },
               { id: 6, name: 'PESO MUERTO A UNA PIERNA' },
               { id: 7, name: 'HIKE PASS' },
               { id: 8, name: 'HIKE PASS + SWING' },
@@ -46,7 +47,7 @@ const vm = new Vue({
               { id: 35, name: 'TGU BOTTOM UP' },
               { id: 36, name: 'BIRD DOG' },
               { id: 37, name: 'SQUAT BOTTOM UP' },
-              { id: 38, name: 'LEVANTADA TURCA' },
+              { id: 38, name: 'TGU, LEVANTADA TURCA' },
               { id: 39, name: 'GOBLET SQUAT' },
               { id: 40, name: 'VARIANTE GOBLET' },
               { id: 41, name: 'SUMO CONTRA PARED' },
@@ -116,9 +117,12 @@ const vm = new Vue({
     mounted: function() {
       this.loadWorkout(window.location.search.substr(1).split("=")[1]);
       var els = JSON.parse(localStorage.getItem('workouts'));
-      console.log(els)
       if (els != null)
         this.own = this.own.concat(els);
+      if (localStorage.getItem('dismissed') == "true") {
+        var $notification = document.querySelectorAll('.notification')[0]
+        $notification.parentNode.removeChild($notification);
+      }
     },
     watch: {
       workout: {
@@ -130,6 +134,13 @@ const vm = new Vue({
       }
     },
     computed: {
+      shareableURL: function() {
+        if (this.workout.sets.length > 0) {
+          return encodeURI("¡Hey! ¡Mira esta rutina de kettlebells!\n" + window.location.href);
+        } else {
+          return encodeURI("¡Hey! ¡Mira esta herramienta para armar rutinas de kettlebells!\n" + window.location.href);
+        }
+      },
       shareableWorkout: function () {
         function ex(ex) {
           return ex.times + "-" + ex.type_id + "-" + ex.ex.id;
@@ -181,7 +192,7 @@ const vm = new Vue({
         this.closeModal('load');
       },
       loadWorkout(shareableWorkout) {
-        if (shareableWorkout.length < 5) return;
+        if (shareableWorkout != undefined && shareableWorkout.length < 5) return;
         this.workout = { sets: [] };
         var sets = shareableWorkout.split("|");
         var that = this;
@@ -246,6 +257,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     $delete.addEventListener('click', () => {
       $notification.parentNode.removeChild($notification);
+      localStorage.setItem('dismissed', true);
     });
   });
+
+  // Get all "navbar-burger" elements
+  const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+  // Check if there are any navbar burgers
+  if ($navbarBurgers.length > 0) {
+
+    // Add a click event on each of them
+    $navbarBurgers.forEach( el => {
+      el.addEventListener('click', () => {
+
+        // Get the target from the "data-target" attribute
+        const target = el.dataset.target;
+        const $target = document.getElementById(target);
+
+        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+        el.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+
+      });
+    });
+  }
 });
