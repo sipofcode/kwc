@@ -102,7 +102,7 @@ const vm = new Vue({
             workouts: [
               {
                 title: 'Mini rutina para combatir el sedentarismo, Guille',
-                details: '1-2:5-2-24+8-2-2+8-2-39',
+                details: '1-2:5-2-24*8-2-2*8-2-39',
                 credits: 'https://www.youtube.com/watch?v=0zc373FkIUM'
               }
             ],
@@ -114,6 +114,13 @@ const vm = new Vue({
             }
         }
     },
+    filters: {
+      capitalize: function (value) {
+        if (!value) return ''
+        value = value.toString()
+        return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+      }
+    },    
     mounted: function() {
       this.loadWorkout(window.location.search.substr(1).split("=")[1]);
       var els = JSON.parse(localStorage.getItem('workouts'));
@@ -149,7 +156,7 @@ const vm = new Vue({
           return set.times + "-" + set.type_id + ":" +
           set.exercises.map(function(e){
             return ex(e);
-          }).join("+");
+          }).join("*");
         }
         return this.workout.sets.map(function(s) {
           return set(s);
@@ -192,14 +199,14 @@ const vm = new Vue({
         this.closeModal('load');
       },
       loadWorkout(shareableWorkout) {
-        if (shareableWorkout != undefined && shareableWorkout.length < 5) return;
+        if (shareableWorkout == undefined || shareableWorkout.length < 5) return;
         this.workout = { sets: [] };
         var sets = shareableWorkout.split("|");
         var that = this;
         sets.forEach(function(set) {
           var data = set.split(":");
           var set_data = data[0].split("-");
-          var exercises_data = data[1].split("+");
+          var exercises_data = data[1].split("*");
           var _set = {
             times: set_data[0],
             type_id: set_data[1],
@@ -221,7 +228,7 @@ const vm = new Vue({
       },
       addSet() {
           this.workout.sets.push({
-              times: 1,
+              times: 8,
               type_id: 2,
               exercises: []
           });
