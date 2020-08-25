@@ -53,9 +53,9 @@
         Kettlebell Workout Composer
       </h1>
       <h2 class="subtitle">
-				Hecho con <i class="fa fa-heart" aria-hidden="true" style="color: red"></i> por
+				Made with <i class="fa fa-heart" aria-hidden="true" style="color: red"></i> by
 				<a class="is-primary" href="https://sipofcode.com" target="_blank">Lucas</a>.
-        Demostraciones por
+        Performance by
         <a class="is-primary" href="https://jeronimomilo.com.ar" target="_blank">Jerónimo</a>
       </h2>
     </div>
@@ -76,15 +76,15 @@
       <div class="navbar-start">
         <a class="navbar-item" v-on:click="openModal('load')">
           <i class="fas fa-folder-open"></i>
-          Abrir
+          Load Workout
         </a>
         <a class="navbar-item" v-on:click="saveWorkout()">
           <i class="fas fa-save"></i>
-          Guardar
+          Save Workout
         </a>
         <a class="navbar-item" v-on:click="openModal('credits')">
           <i class="fas fa-thumbtack"></i>
-          Créditos
+          Credits
         </a>
       </div>
       <div class="navbar-end">
@@ -92,7 +92,7 @@
           <div class="buttons">
             <a class="button is-dark" v-on:click="openModal('support')">
               <i class="fas fa-hand-holding-usd"></i>
-              ¿Querés apoyarme?
+              Support
             </a>
           </div>
         </div>
@@ -106,8 +106,7 @@
 
       <div class="notification is-danger">
         <button class="delete"></button>
-        <strong>¡Cuidado!</strong> Entrenar por cuenta propia queda bajo tu única responsabilidad.
-        Manejar <em>kettlebells</em> requiere de algunos pasos previos. Consultá con un profesional capacitado.
+        <strong>Warning!</strong> Training by yourself might cause injuries. Handling <em>kettlebells</em> requires previous experience. In event of any doubt, please consult a professional.
       </div>
 
       <div class="columns is-multiline">
@@ -142,7 +141,7 @@
 
                 <hr>
 
-                <h2>Ejercicios</h2>
+                <h2>Exercises</h2>
 
                 <template v-for="exercise in set.exercises">
                   <img class="demo full" v-bind:src="'/gifs/' + exercise.ex.id + '.gif'" />
@@ -235,17 +234,17 @@
 
         <div class="modal-card">
           <header class="modal-card-head">
-            <p class="modal-card-title">Rutinas</p>
+            <p class="modal-card-title">Routines</p>
             <button class="delete" aria-label="close" v-on:click="closeModal('load')"></button>
           </header>
           <section class="modal-card-body">
 
-            <h2 class="subtitle">Catálogo</h2>
+            <h2 class="subtitle">Catalogue</h2>
             <table class="table is-hoverable is-fullwidth">
               <thead>
                 <tr>
-                  <th>Título</th>
-                  <th>Créditos</th>
+                  <th>Title</th>
+                  <th>Credits</th>
                 </tr>
               </thead>
               <tbody>
@@ -258,7 +257,7 @@
                   <td>
                     <a v-bind:href="wo.credits">
                       <i class="fas fa-external-link-alt"></i>
-                      Enalce externo
+                      External link
                     </a>
                   </td>
                 </tr>
@@ -271,8 +270,8 @@
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Detalle</th>
-                    <th>Acciones</th>
+                    <th>Name</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -303,32 +302,32 @@
 
         <div class="modal-card">
           <header class="modal-card-head">
-            <p class="modal-card-title">Créditos</p>
+            <p class="modal-card-title">Credits</p>
             <button class="delete" aria-label="close" v-on:click="closeModal('credits')"></button>
           </header>
           <section class="modal-card-body">
 
             <div class="content">
-              <p>Esta herramienta se realizó con material accesible mediante Internet. Se han combinado herramientas y contenidos para brindar una utilidad a los practicantes de Kettlebells.</p>
+              <p>This product was made with sources publicly available via Internet. Different technologies have been combined along with the contents to provide an useful tool for Kettlebell practicioners.</p>
 
-              <h2>Material</h2>
+              <h2>Sources</h2>
               <ul>
-                <li>Video original, <a href="https://www.youtube.com/watch?v=D-NazhzrVhE">75 ejercicios con kettlebells en 15 minutos</a>, de <a href="https://jeronimomilo.com.ar/">Jerónimo Milo</a></li>
+                <li>Original video, "<a href="https://www.youtube.com/watch?v=D-NazhzrVhE">75 ejercicios con kettlebells en 15 minutos</a>", by <a href="https://jeronimomilo.com.ar/">Jerónimo Milo</a></li>
               </ul>
 
-              <h2>Herramientas tecnológicas</h2>
+              <h2>Technology</h2>
               <ul>
-                <li><a href="https://vuejs.org/">VueJS</a>, para el orquestado de las acciones</li>
-                <li><a href="https://bulma.io/">Bulma</a>, para el <em>look and feel</em></li>
-                <li><a href="https://fontawesome.com/">FontAwesome</a>, para la iconografía</li>
-                <li><a href="https://lodash.com/">Lodash</a>, para algunos algoritmos</li>
-                <li><a href="https://ffmpeg.org/">FFMPEG</a>, para el recorte del video y la conversión a gifs</li>
-                <li><a href="https://thenounproject.com/search/?q=kettlebell&i=338646">Favicon</a> por Nikita Kozin, tomado de Noun Project</li>
+                <li><a href="https://vuejs.org/">VueJS</a>, to orchestrate actions</li>
+                <li><a href="https://bulma.io/">Bulma</a>, for the <em>look and feel</em></li>
+                <li><a href="https://fontawesome.com/">FontAwesome</a>, for the iconography</li>
+                <li><a href="https://lodash.com/">Lodash</a>, for some algorithms</li>
+                <li><a href="https://ffmpeg.org/">FFMPEG</a>, to split and conver te video into individual GIFs</li>
+                <li><a href="https://thenounproject.com/search/?q=kettlebell&i=338646">Favicon</a> by Nikita Kozin, from Noun Project</li>
               </ul>
 
-              <h2>Desarrollo</h2>
+              <h2>Development</h2>
               <p>
-                La idea y programación la realizó <a href="https://www.sipofcode.com/">Lucas</a>, autor de varios proyectos más.
+                The idea and development was made by <a href="https://www.sipofcode.com/">Lucas</a>, author of many other projects.
               </p>
             </div>
 
@@ -342,18 +341,18 @@
 
         <div class="modal-card">
           <header class="modal-card-head">
-            <p class="modal-card-title">Apoyo</p>
+            <p class="modal-card-title">Support</p>
             <button class="delete" aria-label="close" v-on:click="closeModal('support')"></button>
           </header>
           <section class="modal-card-body">
             <div class="content">
-              <p>¡Hay muchas formas en las que me podés ayudar!</p>
+              <p>There are many ways you can help me!</p>
               <ul>
-                <li>Si tenés un producto afín (venta de cursos, equipamiento, sesiones de entrenamiento), puedo agregar una pequeña publicidad a cambio de un modesto pago... <a href="mailto:lucas@sipofcode.com">¡Escribime!</a></li>
-                <li>Si sabés diseñar, programar, o tenés ideas para el producto, podés hacerlo desde el <a href="https://www.github.com/sipofcode/kwc">GitHub del proyecto</a>.</li>
-                <li>Si sos profesional de las Kettlebells y tenés rutinas que pueda agregar, <a href="mailto:lucas@sipofcode.com">¡escribime!</a></li>
-                <li>Si usas la herramienta y te parece valiosa, ¡compartila! Cuanta más gente la vea, más posibilidades hay de que surgan oportunidades que retribuyan por mi trabajo.</li>
-                <li>O podés comprarme un café...</li>
+                <li>If you sell a related product (courses, equipment, training sessions), I can add some publicity in exchange for a small payment... <a href="mailto:lucas@sipofcode.com">Contact me!</a></li>
+                <li>If you design, develop, or have any ideas for the product you can do it from the <a href="https://www.github.com/sipofcode/kwc">project's repo</a>.</li>
+                <li>If you are a Kettlebell professional and you have some workouts you want to publish in the catalogue, <a href="mailto:lucas@sipofcode.com">contact me!</a></li>
+                <li>If you use it and you find it useful, share it! As more people knows about it, there are more chances I have some interesting opportunities because of my work.</li>
+                <li>Or you can maybe buy me a coffee...</li>
               </ul>
               <div style="text-align: center">
                 <a href="https://www.buymeacoffee.com/sipofcode" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
@@ -368,7 +367,7 @@
   </section>
 
       <a v-bind:href="'whatsapp://send?text=' + shareableURL" class="button is-floating is-success">
-          <i class="fab fa-whatsapp"></i>
+          <i class="fa fa-share-alt"></i>
       </a>
 
   </div>
