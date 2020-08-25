@@ -104,6 +104,11 @@ const vm = new Vue({
                 title: 'Mini rutina para combatir el sedentarismo, Guille',
                 details: '1-2:5-2-24*8-2-2*8-2-39',
                 credits: 'https://www.youtube.com/watch?v=0zc373FkIUM'
+              },
+              {
+                title: 'Simple and Sinister, Pavel',
+                details: '10-2:10-2-9|10-2:1-2-38',
+                credits: 'https://www.strongfirst.com/achieve/sinister'
               }
             ],
             own: [],

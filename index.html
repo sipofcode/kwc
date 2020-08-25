@@ -14,7 +14,7 @@
     <meta name="apple-mobile-web-app-title" content="KWC">
     <meta name="application-name" content="KWC">
     <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">   
+    <meta name="theme-color" content="#ffffff">
 
     <style>
 
@@ -145,8 +145,8 @@
                 <h2>Ejercicios</h2>
 
                 <template v-for="exercise in set.exercises">
-                  <img class="demo full" v-bind:src="'gifs/' + exercise.ex.id + '.gif'" />
-                  
+                  <img class="demo full" v-bind:src="'/gifs/' + exercise.ex.id + '.gif'" />
+
                   <div class="is-hidden-touch">
                     <div class="field has-addons has-addons-centered">
                       <p class="control">
@@ -367,14 +367,23 @@
 
   </section>
 
-
-
       <a v-bind:href="'whatsapp://send?text=' + shareableURL" class="button is-floating is-success">
           <i class="fab fa-whatsapp"></i>
       </a>
 
   </div>
   <script src="main.js"></script>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-176275542-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-176275542-1');
+  </script>
+
 
 </body>
 
